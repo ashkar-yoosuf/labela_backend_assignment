@@ -2,6 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('cart/<int:pk>/', views.cartList, name='cart'),
-    path('deliver/<int:pk>/', views.deliver, name='deliver')
+    path('cart/', views.CartAction.as_view()),
+    path('cart/<int:pk>/', views.DeleteItem.as_view(), name='cart-delete'),
 ]
