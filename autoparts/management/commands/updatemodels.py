@@ -13,3 +13,5 @@ class Command(BaseCommand):
         for ID, NAME, DETAILS in zip(df.id, df.name, df.details):
             product_record = Product(id=ID, name=NAME, details=DETAILS)
             product_record.save()
+
+        self.stdout.write('Populated initial product details')

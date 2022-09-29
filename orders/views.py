@@ -29,7 +29,7 @@ class OrderItems(APIView):
 
         try:
             order = Order.objects.filter(user_id=data['user_id'], order_id=pk)[:1].get()
-            return JsonResponse(tmp_serializer.errors, status=status.HTTP_409_CONFLICT)
+            return JsonResponse({'error_detail': "this order_id already exists"}, status=status.HTTP_409_CONFLICT)
         except Order.DoesNotExist:
             order = Order(
                 user_id=data['user_id'], 
@@ -53,4 +53,5 @@ class OrderItems(APIView):
             items = list(Product.objects.filter(id__in=list(map(int, order.values_list('products', flat=True).first().split(",")))).values_list('name', flat=True))
             return JsonResponse({'delivery_date_time': date_time,'items': items})
         except AttributeError:
-            return JsonResponse({}, status=status.HTTP_404_NOT_FOUND)
+            return JsonResponse({'error_detail': "this order_id does not exist"}, status=status.HTTP_404_NOT_FOUND)
+

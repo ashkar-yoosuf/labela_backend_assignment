@@ -46,4 +46,5 @@ class ProductDetail(APIView):
         if product_name != None:
             return JsonResponse({'product_name': product_name,'details': details})
         else:
-            return JsonResponse({}, status=status.HTTP_404_NOT_FOUND)
+            return JsonResponse({'error_detail': "use an available product_id"}, status=status.HTTP_404_NOT_FOUND)
+    

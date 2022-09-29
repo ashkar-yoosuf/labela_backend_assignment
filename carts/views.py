@@ -23,10 +23,10 @@ class CartAction(APIView):
         """
         Return a list of all products in the cart.
         """
-        items_list = [[item.product_name, item.quantity] for item in Cart.objects.filter(user_id=request.user.id)]
+        items_list = [[item.product_id, item.product_name, item.quantity] for item in Cart.objects.filter(user_id=request.user.id)]
         items = {'description':[]}
         for i in items_list:
-            items['description'].append({'product_name': i[0], 'quantity': i[1]})
+            items['description'].append({'product_id': i[0], 'product_name': i[1], 'quantity': i[2]})
 
         return JsonResponse(items)
 
@@ -74,7 +74,7 @@ class DeleteItem(APIView):
         try:
             item = Cart.objects.filter(product_id=pk, user_id=request.user.id)[:1].get()
         except Cart.DoesNotExist:
-            return Response(status=status.HTTP_404_NOT_FOUND)
+            return Response({'error_detail': "this product is not available in the cart"}, status=status.HTTP_404_NOT_FOUND)
         
         item.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response({'detail': "item removed"}, status=status.HTTP_204_NO_CONTENT)
