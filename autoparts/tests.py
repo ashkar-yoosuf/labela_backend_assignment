@@ -6,12 +6,16 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
+from autoparts.models import Product
+
 
 class ProductViewTestCase(APITestCase):
 
     def setUp(self):
         self.user = User.objects.create_user(username="user321",
                                             password="stronguser321")
+        
+        Product(id=1, name="test_product_name", details="test product details").save()
 
         try:
             self.token = Token.objects.get(user_id=self.user.id)

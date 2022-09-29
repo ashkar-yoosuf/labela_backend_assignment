@@ -42,7 +42,7 @@ class CartViewTestCase(APITestCase):
     def test_cart_view_authenticated(self):
         response = self.client.get("/cart/")
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(json.loads(response.content), {'description': [{'product_name': 'test_product_name', 'quantity': 4}]})
+        self.assertEqual(json.loads(response.content), {'description': [{'product_id':1, 'product_name': 'test_product_name', 'quantity': 4}]})
 
     def test_cart_view_un_authenticated(self):
         self.client.force_authenticate(user=None)
