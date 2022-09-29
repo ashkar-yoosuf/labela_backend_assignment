@@ -1,7 +1,7 @@
 from django.core.exceptions import PermissionDenied
 from django.http import JsonResponse
 from django.views.generic import DetailView, ListView, UpdateView
-from rest_framework import authentication, permissions
+from rest_framework import authentication, permissions, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -40,10 +40,10 @@ class ProductDetail(APIView):
         """
 
         product = Product.objects.filter(id=pk)
-        product_names = {
-            'product_name': product.values_list('name', flat=True).first(),
-            'details': product.values_list('details', flat=True).first()
-            }
+        product_name = product.values_list('name', flat=True).first()
+        details = product.values_list('details', flat=True).first()
 
-        return JsonResponse(product_names)
-    
+        if product_name != None:
+            return JsonResponse({'product_name': product_name,'details': details})
+        else:
+            return JsonResponse({}, status=status.HTTP_404_NOT_FOUND)

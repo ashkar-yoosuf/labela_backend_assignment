@@ -51,14 +51,6 @@ class OrderItems(APIView):
         try:
             date_time = order.values_list('date_time', flat=True).first()
             items = list(Product.objects.filter(id__in=list(map(int, order.values_list('products', flat=True).first().split(",")))).values_list('name', flat=True))
+            return JsonResponse({'delivery_date_time': date_time,'items': items})
         except AttributeError:
-            date_time = None
-            items = []
-
-        order_confirmation = {
-            'delivery_date_time': date_time,
-            'items': items
-        }
-        return JsonResponse(order_confirmation)
-
-    
+            return JsonResponse({}, status=status.HTTP_404_NOT_FOUND)

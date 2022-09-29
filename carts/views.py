@@ -44,10 +44,7 @@ class CartAction(APIView):
 
         available_product_ids = set(Product.objects.all().values_list('id', flat=True))
         if data['product_id'] not in available_product_ids:
-            return JsonResponse(
-                {'available_product_ids': list(available_product_ids)}, 
-                status=status.HTTP_404_NOT_FOUND
-                )
+            return JsonResponse({},status=status.HTTP_404_NOT_FOUND)
 
         data['user_id'] = request.user.id
         data['product_name'] = Product.objects.values_list('name', flat=True).filter(id=data['product_id']).first()
