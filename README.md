@@ -24,7 +24,7 @@ E-Commerce webapp MVP
 
 ## Notes
 - Once the app is running test product records will be available.
-- Use the following command to stop the app (may need superuser permission):
-    > docker-compose down
 - Use the following command to run the unit tests (may need superuser permission):
     > docker-compose run web python manage.py test
+- Use the following command to stop the app (may need superuser permission):
+    > docker-compose down
